@@ -5,13 +5,12 @@ import com.braveplayers.game.dtos.PlayerDto
 import com.braveplayers.game.entities.Player
 import com.braveplayers.game.services.PlayerService
 import com.braveplayers.game.util.Mapper
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import java.util.*
 
 @SpringBootTest
 class PlayerControllerTest {

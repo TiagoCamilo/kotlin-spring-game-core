@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.braveplayers.game.dtos
 
 data class PlayerDto(
