@@ -1,8 +1,8 @@
-package com.braveplayers.tibia.characters
+package com.braveplayers.game
 
-import com.braveplayers.tibia.characters.entities.Character
-import com.braveplayers.tibia.characters.repositories.CharacterRepository
-import com.braveplayers.tibia.characters.services.CharacterService
+import com.braveplayers.game.entities.Player
+import com.braveplayers.game.repositories.PlayerRepository
+import com.braveplayers.game.services.PlayerService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
@@ -12,18 +12,18 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import java.util.*
 
 @SpringBootTest
-class CharacterServiceTest {
+class PlayerServiceTest {
 
     @Autowired
-    lateinit var service: CharacterService
+    lateinit var service: PlayerService
 
     @MockBean
-    lateinit var repository: CharacterRepository
+    lateinit var repository: PlayerRepository
 
     @Test
-    fun findByIdShouldReturnCharacter() {
+    fun findByIdShouldReturnPlayer() {
         val id = 1L
-        val entity = Character(id, "char1", 100)
+        val entity = Player(id, "char1", 100)
 
         BDDMockito.given(repository.findById(id)).willReturn(Optional.of(entity))
 
@@ -31,9 +31,9 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun createShouldSaveAndReturnCharacter() {
+    fun createShouldSaveAndReturnPlayer() {
         val id = 1L
-        val entity = Character(id, "char1", 100)
+        val entity = Player(id, "char1", 100)
 
         BDDMockito.given(repository.save(entity)).willReturn(entity)
 
@@ -41,11 +41,11 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun findAllShouldReturnListOfCharacters() {
-        val entityCollection: MutableList<Character> = mutableListOf(
-                Character(1, "char1", 100),
-                Character(2, "char2", 200),
-                Character(3, "char3", 300),
+    fun findAllShouldReturnListOfPlayers() {
+        val entityCollection: MutableList<Player> = mutableListOf(
+                Player(1, "char1", 100),
+                Player(2, "char2", 200),
+                Player(3, "char3", 300),
         )
 
         BDDMockito.given(repository.findAll()).willReturn(entityCollection)

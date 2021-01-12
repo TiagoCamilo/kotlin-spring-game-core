@@ -1,10 +1,10 @@
-package com.braveplayers.tibia.characters.entities
+package com.braveplayers.game.entities
 
 import javax.persistence.*
 
 @Entity
-@Table(name = "character")
-data class Character(
+@Table(name = "player")
+data class Player(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0,

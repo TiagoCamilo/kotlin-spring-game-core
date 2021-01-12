@@ -1,4 +1,4 @@
-package com.braveplayers.tibia.characters.util
+package com.braveplayers.game.util
 
 import org.modelmapper.ModelMapper
 import org.modelmapper.config.Configuration

@@ -1,10 +1,10 @@
-package com.braveplayers.tibia.characters
+package com.braveplayers.game
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class CharactersApiApplicationTests {
+class GameApiApplicationTests {
 
     @Test
     fun contextLoads() {
