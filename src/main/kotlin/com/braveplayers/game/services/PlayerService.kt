@@ -9,4 +9,5 @@ interface PlayerService {
     fun create(player: Player): Player
     fun findById(id: Long): Player
     fun findAll(): Collection<Player>
+    fun delete(id: Long): Player
 }

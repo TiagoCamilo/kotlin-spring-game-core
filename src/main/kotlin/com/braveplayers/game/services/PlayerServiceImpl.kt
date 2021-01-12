@@ -13,4 +13,10 @@ class PlayerServiceImpl @Autowired constructor(override val repository: PlayerRe
     override fun findById(id: Long): Player = repository.findById(id).orElseThrow()
 
     override fun findAll(): Collection<Player> = repository.findAll()
+
+    override fun delete(id: Long): Player {
+        val entity = findById(id)
+        repository.delete(entity)
+        return entity
+    }
 }

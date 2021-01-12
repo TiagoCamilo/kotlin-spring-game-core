@@ -3,9 +3,11 @@ package com.braveplayers.game
 import com.braveplayers.game.entities.Player
 import com.braveplayers.game.repositories.PlayerRepository
 import com.braveplayers.game.services.PlayerService
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -25,9 +27,8 @@ class PlayerServiceTest {
         val id = 1L
         val entity = Player(id, "player1", 100)
 
-        BDDMockito.given(repository.findById(id)).willReturn(Optional.of(entity))
-
-        Assertions.assertEquals(entity, service.findById(id))
+        given(repository.findById(id)).willReturn(Optional.of(entity))
+        assertEquals(entity, service.findById(id))
     }
 
     @Test
@@ -35,9 +36,9 @@ class PlayerServiceTest {
         val id = 1L
         val entity = Player(id, "player1", 100)
 
-        BDDMockito.given(repository.save(entity)).willReturn(entity)
+        given(repository.save(entity)).willReturn(entity)
 
-        Assertions.assertEquals(entity, service.create(entity))
+        assertEquals(entity, service.create(entity))
     }
 
     @Test
@@ -48,9 +49,19 @@ class PlayerServiceTest {
                 Player(3, "player3", 300),
         )
 
-        BDDMockito.given(repository.findAll()).willReturn(entityCollection)
+        given(repository.findAll()).willReturn(entityCollection)
 
-        Assertions.assertEquals(entityCollection, service.findAll())
+        assertEquals(entityCollection, service.findAll())
     }
 
+    @Test
+    fun deleteShouldDeleteAndReturnPlayer() {
+        val id = 1L
+        val entity = Player(id, "player1", 100)
+
+        given(repository.findById(id)).willReturn(Optional.of(entity))
+
+        assertEquals(entity, service.delete(id))
+        verify(repository, times(1)).delete(entity)
+    }
 }

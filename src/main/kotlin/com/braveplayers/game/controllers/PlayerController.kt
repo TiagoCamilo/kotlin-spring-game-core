@@ -25,4 +25,7 @@ class PlayerController(private val service: PlayerService) {
         return playerCollection.map { Mapper.convert(it) }
     }
 
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): PlayerDto = Mapper.convert(service.delete(id))
+
 }
