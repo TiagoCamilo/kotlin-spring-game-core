@@ -19,4 +19,10 @@ class CharacterController(private val service: CharacterService) {
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): CharacterDto = Mapper.convert(service.findById(id))
 
+    @GetMapping()
+    fun findAll(): Collection<CharacterDto> {
+        val characterCollection = service.findAll()
+        return characterCollection.map { Mapper.convert(it) }
+    }
+
 }

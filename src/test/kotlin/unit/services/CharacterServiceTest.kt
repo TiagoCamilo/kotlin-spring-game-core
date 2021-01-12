@@ -40,4 +40,17 @@ class CharacterServiceTest {
         Assertions.assertEquals(entity, service.create(entity))
     }
 
+    @Test
+    fun findAllShouldReturnListOfCharacters() {
+        val entityCollection: MutableList<Character> = mutableListOf(
+                Character(1, "char1", 100),
+                Character(2, "char2", 200),
+                Character(3, "char3", 300),
+        )
+
+        BDDMockito.given(repository.findAll()).willReturn(entityCollection)
+
+        Assertions.assertEquals(entityCollection, service.findAll())
+    }
+
 }

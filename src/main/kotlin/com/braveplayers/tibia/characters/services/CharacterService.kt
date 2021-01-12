@@ -8,4 +8,5 @@ interface CharacterService {
 
     fun create(character: Character): Character
     fun findById(id: Long): Character
+    fun findAll(): Collection<Character>
 }

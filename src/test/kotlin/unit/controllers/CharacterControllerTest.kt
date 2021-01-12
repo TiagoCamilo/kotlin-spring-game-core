@@ -42,5 +42,18 @@ class CharacterControllerTest {
         Assertions.assertEquals(dto, controller.create(dto))
     }
 
+    @Test
+    fun findAllShouldReturnListOfCharacters(){
+        val dtoCollection: Collection<CharacterDto> = listOf(
+                CharacterDto("char1", 100),
+                CharacterDto("char2", 200),
+                CharacterDto("char3", 300),
+        )
+        val entityCollection: Collection<Character> = dtoCollection.map { Mapper.convert(it) }
+
+        BDDMockito.given(service.findAll()).willReturn(entityCollection)
+
+        Assertions.assertEquals(dtoCollection, controller.findAll())
+    }
 
 }

@@ -11,4 +11,6 @@ class CharacterServiceImpl @Autowired constructor(override val repository: Chara
     override fun create(character: Character) = repository.save(character)
 
     override fun findById(id: Long): Character = repository.findById(id).orElseThrow()
+
+    override fun findAll(): Collection<Character> = repository.findAll()
 }
