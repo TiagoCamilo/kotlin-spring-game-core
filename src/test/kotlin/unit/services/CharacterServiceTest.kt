@@ -23,21 +23,21 @@ class CharacterServiceTest {
     @Test
     fun findByIdShouldReturnCharacter() {
         val id = 1L
-        val obj = Character(id, "Char1", 100)
+        val entity = Character(id, "char1", 100)
 
-        BDDMockito.given(repository.findById(id)).willReturn(Optional.of(obj))
+        BDDMockito.given(repository.findById(id)).willReturn(Optional.of(entity))
 
-        Assertions.assertEquals(obj, service.findById(id))
+        Assertions.assertEquals(entity, service.findById(id))
     }
 
     @Test
     fun createShouldSaveAndReturnCharacter() {
-        val id = 99L
-        val obj = Character(id, "Char1", 100)
+        val id = 1L
+        val entity = Character(id, "char1", 100)
 
-        BDDMockito.given(repository.save(obj)).willReturn(obj)
+        BDDMockito.given(repository.save(entity)).willReturn(entity)
 
-        Assertions.assertEquals(obj, service.create(obj))
+        Assertions.assertEquals(entity, service.create(entity))
     }
 
 }
