@@ -23,7 +23,7 @@ class PlayerServiceTest {
     @Test
     fun findByIdShouldReturnPlayer() {
         val id = 1L
-        val entity = Player(id, "char1", 100)
+        val entity = Player(id, "player1", 100)
 
         BDDMockito.given(repository.findById(id)).willReturn(Optional.of(entity))
 
@@ -33,7 +33,7 @@ class PlayerServiceTest {
     @Test
     fun createShouldSaveAndReturnPlayer() {
         val id = 1L
-        val entity = Player(id, "char1", 100)
+        val entity = Player(id, "player1", 100)
 
         BDDMockito.given(repository.save(entity)).willReturn(entity)
 
@@ -43,9 +43,9 @@ class PlayerServiceTest {
     @Test
     fun findAllShouldReturnListOfPlayers() {
         val entityCollection: MutableList<Player> = mutableListOf(
-                Player(1, "char1", 100),
-                Player(2, "char2", 200),
-                Player(3, "char3", 300),
+                Player(1, "player1", 100),
+                Player(2, "player2", 200),
+                Player(3, "player3", 300),
         )
 
         BDDMockito.given(repository.findAll()).willReturn(entityCollection)

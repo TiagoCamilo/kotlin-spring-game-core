@@ -24,8 +24,8 @@ class PlayerControllerTest {
     @Test
     fun findByIdShouldReturnPlayer() {
         val id = 1L
-        val dto = PlayerDto("char1", 100)
-        val entity = Player(id, "char1", 100)
+        val dto = PlayerDto("player1", 100)
+        val entity = Player(id, "player1", 100)
 
         BDDMockito.given(service.findById(id)).willReturn(entity)
 
@@ -34,7 +34,7 @@ class PlayerControllerTest {
 
     @Test
     fun createShouldCreateAndReturnPlayer() {
-        val dto = PlayerDto("char1", 100)
+        val dto = PlayerDto("player1", 100)
         val entity: Player = Mapper.convert(dto)
 
         BDDMockito.given(service.create(entity)).willReturn(entity)
@@ -45,9 +45,9 @@ class PlayerControllerTest {
     @Test
     fun findAllShouldReturnListOfPlayers() {
         val dtoCollection: Collection<PlayerDto> = listOf(
-                PlayerDto("char1", 100),
-                PlayerDto("char2", 200),
-                PlayerDto("char3", 300),
+                PlayerDto("player1", 100),
+                PlayerDto("player2", 200),
+                PlayerDto("player3", 300),
         )
         val entityCollection: Collection<Player> = dtoCollection.map { Mapper.convert(it) }
 
