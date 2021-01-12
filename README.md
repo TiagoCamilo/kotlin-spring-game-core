@@ -1,1 +1,1 @@
-# tibia-characters-api
+# game-api

@@ -1,1 +1,1 @@
-rootProject.name = "characters"
+rootProject.name = "game"
