@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper
 import org.modelmapper.config.Configuration
 import org.modelmapper.convention.MatchingStrategies
 
-class Mapper: ModelMapper() {
+class Mapper : ModelMapper() {
     init {
         configuration.matchingStrategy = MatchingStrategies.LOOSE
         configuration.fieldAccessLevel = Configuration.AccessLevel.PRIVATE
@@ -13,9 +13,8 @@ class Mapper: ModelMapper() {
     }
 
 
-
     companion object {
-        inline fun <S, reified T> convert(source: S): T =  Mapper().map(source, T::class.java)
+        inline fun <S, reified T> convert(source: S): T = Mapper().map(source, T::class.java)
     }
 
 }

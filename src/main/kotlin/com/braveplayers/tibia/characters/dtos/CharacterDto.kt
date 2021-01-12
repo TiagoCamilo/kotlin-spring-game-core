@@ -1,6 +1,6 @@
 package com.braveplayers.tibia.characters.dtos
 
-class CharacterDto {
-    val name: String = "";
-    val level: Int = 0;
-}
+data class CharacterDto(
+        val name: String = "",
+        val level: Int = 0,
+)
