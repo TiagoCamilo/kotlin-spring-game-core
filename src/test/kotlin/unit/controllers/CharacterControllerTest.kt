@@ -2,6 +2,7 @@ package com.braveplayers.tibia.characters
 
 import com.braveplayers.tibia.characters.controllers.CharacterController
 import com.braveplayers.tibia.characters.dtos.CharacterDto
+import com.braveplayers.tibia.characters.entities.Character
 import com.braveplayers.tibia.characters.services.CharacterService
 import com.braveplayers.tibia.characters.util.Mapper
 import org.junit.jupiter.api.Assertions
@@ -10,7 +11,6 @@ import org.mockito.BDDMockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import com.braveplayers.tibia.characters.entities.Character as Character
 
 @SpringBootTest
 class CharacterControllerTest {
@@ -35,7 +35,7 @@ class CharacterControllerTest {
     @Test
     fun createShouldCreateAndReturnCharacter() {
         val dto = CharacterDto("char1", 100)
-        val entity: Character  = Mapper.convert(dto)
+        val entity: Character = Mapper.convert(dto)
 
         BDDMockito.given(service.create(entity)).willReturn(entity)
 
@@ -43,7 +43,7 @@ class CharacterControllerTest {
     }
 
     @Test
-    fun findAllShouldReturnListOfCharacters(){
+    fun findAllShouldReturnListOfCharacters() {
         val dtoCollection: Collection<CharacterDto> = listOf(
                 CharacterDto("char1", 100),
                 CharacterDto("char2", 200),
