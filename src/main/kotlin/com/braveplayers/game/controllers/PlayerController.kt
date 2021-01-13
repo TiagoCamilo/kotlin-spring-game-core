@@ -5,13 +5,14 @@ import com.braveplayers.game.entities.Player
 import com.braveplayers.game.services.PlayerService
 import com.braveplayers.game.util.Mapper
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/players")
 class PlayerController(private val service: PlayerService) {
 
     @PostMapping
-    fun create(@RequestBody playerDto: PlayerDto): PlayerDto {
+    fun create(@Valid @RequestBody playerDto: PlayerDto): PlayerDto {
         val player: Player = Mapper.convert(playerDto)
         return Mapper.convert(service.create(player))
     }
