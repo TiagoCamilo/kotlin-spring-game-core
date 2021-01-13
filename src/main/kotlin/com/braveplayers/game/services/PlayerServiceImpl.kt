@@ -1,14 +1,11 @@
-@file:Suppress("unused")
-
 package com.braveplayers.game.services
 
 import com.braveplayers.game.entities.Player
 import com.braveplayers.game.repositories.PlayerRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class PlayerServiceImpl @Autowired constructor(override val repository: PlayerRepository) : PlayerService {
+class PlayerServiceImpl(private val repository: PlayerRepository) : PlayerService {
 
     override fun create(player: Player) = repository.save(player)
 

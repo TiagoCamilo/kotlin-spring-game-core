@@ -4,8 +4,6 @@ import com.braveplayers.game.entities.Player
 import com.braveplayers.game.repositories.PlayerRepository
 
 interface PlayerService {
-    val repository: PlayerRepository
-
     fun create(player: Player): Player
     fun findById(id: Long): Player
     fun findAll(): Collection<Player>
