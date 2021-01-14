@@ -1,9 +1,9 @@
 package com.braveplayers.game
 
-import com.braveplayers.game.entities.Player
+import com.braveplayers.game.entities.Character
 import com.braveplayers.game.exceptions.ResourceNotFoundException
-import com.braveplayers.game.repositories.PlayerRepository
-import com.braveplayers.game.services.PlayerService
+import com.braveplayers.game.repositories.CharacterRepository
+import com.braveplayers.game.services.CharacterService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -13,22 +13,21 @@ import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import java.lang.RuntimeException
 import java.util.*
 
 @SpringBootTest
-class PlayerServiceTest {
+class CharacterServiceTest {
 
     @Autowired
-    lateinit var service: PlayerService
+    lateinit var service: CharacterService
 
     @MockBean
-    lateinit var repository: PlayerRepository
+    lateinit var repository: CharacterRepository
 
     @Test
-    fun findByIdShouldReturnPlayer() {
+    fun findByIdShouldReturnCharacter() {
         val id = 1L
-        val entity = Player(id, "player1", 100)
+        val entity = Character(id, "character1", 100)
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
         assertEquals(entity, service.findById(id))
@@ -46,9 +45,9 @@ class PlayerServiceTest {
     }
 
     @Test
-    fun createShouldSaveAndReturnPlayer() {
+    fun createShouldSaveAndReturnCharacter() {
         val id = 1L
-        val entity = Player(id, "player1", 100)
+        val entity = Character(id, "character1", 100)
 
         given(repository.save(entity)).willReturn(entity)
 
@@ -56,11 +55,11 @@ class PlayerServiceTest {
     }
 
     @Test
-    fun findAllShouldReturnListOfPlayers() {
-        val entityCollection: MutableList<Player> = mutableListOf(
-                Player(1, "player1", 100),
-                Player(2, "player2", 200),
-                Player(3, "player3", 300),
+    fun findAllShouldReturnCharacters() {
+        val entityCollection: MutableList<Character> = mutableListOf(
+                Character(1, "character1", 100),
+                Character(2, "character2", 200),
+                Character(3, "character3", 300),
         )
 
         given(repository.findAll()).willReturn(entityCollection)
@@ -69,9 +68,9 @@ class PlayerServiceTest {
     }
 
     @Test
-    fun deleteShouldDeleteAndReturnPlayer() {
+    fun deleteShouldDeleteAndReturnCharacter() {
         val id = 1L
-        val entity = Player(id, "player1", 100)
+        val entity = Character(id, "character1", 100)
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
 

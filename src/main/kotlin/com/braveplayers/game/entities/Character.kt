@@ -3,8 +3,8 @@ package com.braveplayers.game.entities
 import javax.persistence.*
 
 @Entity
-@Table(name = "player")
-data class Player(
+@Table(name = "character")
+data class Character(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0,

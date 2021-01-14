@@ -3,7 +3,7 @@ package com.braveplayers.game.dtos
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotEmpty
 
-data class PlayerDto(
+data class CharacterDto(
         @field:NotEmpty val name: String = "",
         @field:Min(1) val level: Int = 1,
 ) {
