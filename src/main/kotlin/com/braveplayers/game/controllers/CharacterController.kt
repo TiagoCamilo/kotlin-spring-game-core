@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/Characters")
+@RequestMapping("/characters")
 class CharacterController(private val service: CharacterService) {
 
     @PostMapping
@@ -29,4 +29,10 @@ class CharacterController(private val service: CharacterService) {
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): CharacterDto = Mapper.convert(service.delete(id))
 
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @Valid @RequestBody characterDto: CharacterDto): CharacterDto {
+        characterDto.id = id
+        val character: Character = Mapper.convert(characterDto)
+        return Mapper.convert(service.update(character))
+    }
 }

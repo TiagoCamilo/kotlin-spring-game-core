@@ -19,4 +19,11 @@ class CharacterServiceImpl(private val repository: CharacterRepository) : Charac
         repository.delete(entity)
         return entity
     }
+
+    override fun update(entity: Character): Character {
+        //Check: entity exists or throw exception
+        findById(entity.id)
+        repository.save(entity)
+        return entity
+    }
 }

@@ -30,11 +30,12 @@ class CharacterServiceTest {
         val entity = Character(id, "character1", 100)
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
+
         assertEquals(entity, service.findById(id))
     }
 
     @Test
-    fun findByIdShouldThrowException() {
+    fun findByIdShouldThrowResourceNotFoundException() {
         val id = 1L
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
@@ -52,6 +53,7 @@ class CharacterServiceTest {
         given(repository.save(entity)).willReturn(entity)
 
         assertEquals(entity, service.create(entity))
+        verify(repository, times(1)).save(entity)
     }
 
     @Test
@@ -79,13 +81,41 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun deleteShouldThrowException() {
+    fun deleteShouldThrowResourceNotFoundException() {
         val id = 1L
+        val entity = Character(id, "character1", 100)
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
             service.delete(id)
         }
 
         assertEquals("Not Found", exception.message)
+        verify(repository, times(0)).delete(entity)
+
     }
+
+    @Test
+    fun updateShouldUpdateAndReturnCharacter() {
+        val id = 1L
+        val entity = Character(id, "character1", 100)
+
+        given(repository.findById(id)).willReturn(Optional.of(entity))
+        given(repository.save(entity)).willReturn(entity)
+
+        assertEquals(entity, service.update(entity))
+        verify(repository, times(1)).save(entity)
+    }
+
+    @Test
+    fun updateShouldThrowResourceNotFoundException() {
+        val id = 1L
+        val entity = Character(id, "character1", 100)
+
+        val exception = assertThrows(ResourceNotFoundException::class.java) {
+            service.update(entity)
+        }
+
+        assertEquals("Not Found", exception.message)
+    }
+
 }

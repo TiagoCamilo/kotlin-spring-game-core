@@ -7,4 +7,5 @@ interface CharacterService {
     fun findById(id: Long): Character
     fun findAll(): Collection<Character>
     fun delete(id: Long): Character
+    fun update(entity: Character): Character
 }

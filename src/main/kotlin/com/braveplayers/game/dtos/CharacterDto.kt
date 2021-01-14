@@ -4,8 +4,8 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotEmpty
 
 data class CharacterDto(
-        @field:NotEmpty val name: String = "",
-        @field:Min(1) val level: Int = 1,
+        @field:NotEmpty var name: String = "",
+        @field:Min(1) var level: Int = 1,
 ) {
-    val id: Long = 0
+    var id: Long = 0
 }
