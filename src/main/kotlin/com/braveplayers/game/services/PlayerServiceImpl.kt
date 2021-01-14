@@ -1,6 +1,7 @@
 package com.braveplayers.game.services
 
 import com.braveplayers.game.entities.Player
+import com.braveplayers.game.exceptions.ResourceNotFoundException
 import com.braveplayers.game.repositories.PlayerRepository
 import org.springframework.stereotype.Service
 
@@ -9,7 +10,7 @@ class PlayerServiceImpl(private val repository: PlayerRepository) : PlayerServic
 
     override fun create(player: Player) = repository.save(player)
 
-    override fun findById(id: Long): Player = repository.findById(id).orElseThrow()
+    override fun findById(id: Long): Player = repository.findById(id).orElseThrow { ResourceNotFoundException() }
 
     override fun findAll(): Collection<Player> = repository.findAll()
 

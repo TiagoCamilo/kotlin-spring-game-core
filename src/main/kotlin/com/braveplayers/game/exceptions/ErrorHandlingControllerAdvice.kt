@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.context.request.WebRequest
+import java.util.*
 import javax.validation.ConstraintViolationException
-
 
 @ControllerAdvice
 class ErrorHandlingControllerAdvice {
@@ -21,8 +22,7 @@ class ErrorHandlingControllerAdvice {
         val error = ValidationErrorResponse()
 
         for (violation in e.constraintViolations) {
-            error.violations.add(
-                    Violation(violation.propertyPath.toString(), violation.message))
+            error.add(violation.propertyPath.toString(), violation.message)
         }
 
         return error
@@ -37,10 +37,20 @@ class ErrorHandlingControllerAdvice {
         val error = ValidationErrorResponse()
 
         for (fieldError in e.bindingResult.fieldErrors) {
-            error.violations.add(
-                    Violation(fieldError.field, fieldError.defaultMessage))
+            error.add(fieldError.field, fieldError.defaultMessage)
         }
 
         return error
+    }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    fun onResourceNotFoundException(
+            e: ResourceNotFoundException,
+            request: WebRequest
+    ): ExceptionResponse {
+        return ExceptionResponse(Date(), e.message, request.getDescription(false) )
+
     }
 }
