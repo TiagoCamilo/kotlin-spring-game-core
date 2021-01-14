@@ -11,6 +11,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpStatus
 
 @SpringBootTest
 class CharacterControllerTest {
@@ -22,28 +23,32 @@ class CharacterControllerTest {
     lateinit var service: CharacterService
 
     @Test
-    fun findByIdShouldReturnCharacterDto() {
+    fun findBy_ResponseEntityWithHttp200AndCharacterDto() {
         val id = 1L
         val dto = CharacterDto("character1", 100)
         val entity = Character(id, "character1", 100)
 
         given(service.findById(id)).willReturn(entity)
+        val responseEntity = controller.findById(id)
 
-        assertEquals(dto, controller.findById(id))
+        assertEquals(dto, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
     }
 
     @Test
-    fun createShouldCreateAndReturnCharacterDto() {
+    fun create_ResponseEntityWithHttp201AndCharacterDto() {
         val dto = CharacterDto("character1", 100)
         val entity: Character = Mapper.convert(dto)
 
         given(service.create(entity)).willReturn(entity)
+        val responseEntity = controller.create(dto)
 
-        assertEquals(dto, controller.create(dto))
+        assertEquals(dto, responseEntity.body)
+        assertEquals(HttpStatus.CREATED, responseEntity.statusCode)
     }
 
     @Test
-    fun findAllShouldReturnCharacterDtos() {
+    fun findAll_ResponseEntityWithHttp200AndCollectionOfCharacterDto() {
         val dtoCollection: Collection<CharacterDto> = listOf(
                 CharacterDto("character1", 100),
                 CharacterDto("character2", 200),
@@ -52,19 +57,37 @@ class CharacterControllerTest {
         val entityCollection: Collection<Character> = dtoCollection.map { Mapper.convert(it) }
 
         given(service.findAll()).willReturn(entityCollection)
+        val responseEntity = controller.findAll()
 
-        assertEquals(dtoCollection, controller.findAll())
+        assertEquals(dtoCollection, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
     }
 
     @Test
-    fun deleteShouldDeleteAndReturnCharacterDto() {
+    fun delete_ResponseEntityWithHttp200AndCharacterDto() {
         val id = 1L
         val dto = CharacterDto("character1", 100)
         val entity: Character = Mapper.convert(dto)
 
         given(service.delete(id)).willReturn(entity)
+        val responseEntity = controller.delete(id)
 
-        assertEquals(dto, controller.delete(id))
+        assertEquals(dto, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+    }
+
+    @Test
+    fun update_ResponseEntityWithHttp200AndCharacterDto() {
+        val id = 1L
+        val dto = CharacterDto("character1", 100)
+        dto.id = id
+        val entity: Character = Mapper.convert(dto)
+
+        given(service.update(entity)).willReturn(entity)
+        val responseEntity = controller.update(id, dto)
+
+        assertEquals(dto, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
     }
 
 }

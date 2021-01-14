@@ -25,7 +25,7 @@ class CharacterServiceTest {
     lateinit var repository: CharacterRepository
 
     @Test
-    fun findByIdShouldReturnCharacter() {
+    fun findById_Character() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
@@ -35,7 +35,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun findByIdShouldThrowResourceNotFoundException() {
+    fun findById_ThrowResourceNotFoundException() {
         val id = 1L
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
@@ -46,7 +46,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun createShouldSaveAndReturnCharacter() {
+    fun create_Character() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
@@ -57,7 +57,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun findAllShouldReturnCharacters() {
+    fun findAll_Characters() {
         val entityCollection: MutableList<Character> = mutableListOf(
                 Character(1, "character1", 100),
                 Character(2, "character2", 200),
@@ -70,7 +70,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun deleteShouldDeleteAndReturnCharacter() {
+    fun delete_Character() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
@@ -81,7 +81,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun deleteShouldThrowResourceNotFoundException() {
+    fun delete_ThrowResourceNotFoundException() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
@@ -95,7 +95,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun updateShouldUpdateAndReturnCharacter() {
+    fun update_Character() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
@@ -107,7 +107,7 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun updateShouldThrowResourceNotFoundException() {
+    fun update_ThrowResourceNotFoundException() {
         val id = 1L
         val entity = Character(id, "character1", 100)
 
