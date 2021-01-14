@@ -1,7 +1,7 @@
 package com.braveplayers.game
 
 import com.braveplayers.game.entities.Character
-import com.braveplayers.game.exceptions.ResourceNotFoundException
+import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
 import com.braveplayers.game.repositories.CharacterRepository
 import com.braveplayers.game.services.CharacterService
 import org.junit.jupiter.api.Assertions.assertEquals

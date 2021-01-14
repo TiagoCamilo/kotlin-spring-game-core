@@ -1,4 +1,4 @@
-package com.braveplayers.game.exceptions
+package com.braveplayers.game.exceptions.classes
 
 import java.lang.RuntimeException
 

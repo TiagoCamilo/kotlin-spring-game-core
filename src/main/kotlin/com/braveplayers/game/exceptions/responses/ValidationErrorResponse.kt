@@ -1,4 +1,4 @@
-package com.braveplayers.game.exceptions
+package com.braveplayers.game.exceptions.responses
 
 class ValidationErrorResponse {
     val violations: MutableList<Violation> = mutableListOf()
