@@ -14,43 +14,42 @@ import javax.validation.Valid
 class CharacterController(private val service: CharacterService) {
 
     @PostMapping
-    fun create(@Valid @RequestBody characterDto: CharacterDto): ResponseEntity<CharacterDto> {
-        val character: Character = Mapper.convert(characterDto)
-        val entityCreated: CharacterDto = Mapper.convert(service.create(character))
+    fun create(@Valid @RequestBody dto: CharacterDto): ResponseEntity<CharacterDto> {
+        val mappedEntity: Character = Mapper.convert(dto)
+        val createdEntity: CharacterDto = Mapper.convert(service.create(mappedEntity))
 
-        return ResponseEntity<CharacterDto>(entityCreated, HttpStatus.CREATED)
+        return ResponseEntity<CharacterDto>(createdEntity, HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<CharacterDto> {
-        val entityFound: CharacterDto = Mapper.convert(service.findById(id))
+        val foundEntity: CharacterDto = Mapper.convert(service.findById(id))
 
-        return ResponseEntity<CharacterDto>(entityFound, HttpStatus.OK)
+        return ResponseEntity<CharacterDto>(foundEntity, HttpStatus.OK)
     }
 
     @GetMapping()
     fun findAll(): ResponseEntity<Collection<CharacterDto>> {
-        val characterCollection = service.findAll()
-        val entityCollection: Collection<CharacterDto> = characterCollection.map { Mapper.convert(it) }
+        val entityCollection = service.findAll()
+        val dtoCollection: Collection<CharacterDto> = entityCollection.map { Mapper.convert(it) }
 
-        return ResponseEntity<Collection<CharacterDto>>(entityCollection, HttpStatus.OK)
+        return ResponseEntity<Collection<CharacterDto>>(dtoCollection, HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<CharacterDto> {
-        val entityDeleted: CharacterDto = Mapper.convert(service.delete(id))
+        val deletedEntity: CharacterDto = Mapper.convert(service.delete(id))
 
-        return ResponseEntity<CharacterDto>(entityDeleted, HttpStatus.OK)
+        return ResponseEntity<CharacterDto>(deletedEntity, HttpStatus.OK)
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @Valid @RequestBody characterDto: CharacterDto): ResponseEntity<CharacterDto> {
-        characterDto.id = id
-        val character: Character = Mapper.convert(characterDto)
+    fun update(@PathVariable id: Long, @Valid @RequestBody dto: CharacterDto): ResponseEntity<CharacterDto> {
+        dto.id = id
+        val mappedEntity: Character = Mapper.convert(dto)
 
-        val entityUpdated: CharacterDto = Mapper.convert(service.update(character))
+        val updatedEntity: CharacterDto = Mapper.convert(service.update(mappedEntity))
 
-        return ResponseEntity<CharacterDto>(entityUpdated, HttpStatus.OK)
+        return ResponseEntity<CharacterDto>(updatedEntity, HttpStatus.OK)
     }
-
 }
