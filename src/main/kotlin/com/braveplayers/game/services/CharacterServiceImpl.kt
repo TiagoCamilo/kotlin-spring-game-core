@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service
 class CharacterServiceImpl(
         private val repository: CharacterRepository,
         private val guildService: GuildService
-) : CharacterService {
+) : CharacterService, Publisher {
+
+    private val subscribers: MutableCollection<Subscriber> = mutableSetOf()
 
     override fun create(character: Character): Character {
         character.guild = guildService.findByName(character.guild?.name ?: "")
@@ -29,7 +31,19 @@ class CharacterServiceImpl(
     override fun update(entity: Character): Character {
         //Check: entity exists or throw exception
         findById(entity.id)
+        entity.guild = guildService.findByName(entity.guild?.name ?: "")
         repository.save(entity)
+        notify(entity)
         return entity
+    }
+
+    override fun subscribe(subscriber: Subscriber) {
+        subscribers.add(subscriber)
+    }
+
+    override fun notify(content: Any) {
+        subscribers.forEach {
+            it.update(content)
+        }
     }
 }
