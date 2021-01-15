@@ -6,9 +6,15 @@ import com.braveplayers.game.repositories.CharacterRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CharacterServiceImpl(private val repository: CharacterRepository) : CharacterService {
+class CharacterServiceImpl(
+        private val repository: CharacterRepository,
+        private val guildService: GuildService
+) : CharacterService {
 
-    override fun create(character: Character) = repository.save(character)
+    override fun create(character: Character): Character {
+        character.guild = guildService.findByName(character.guild?.name ?: "")
+        return repository.save(character)
+    }
 
     override fun findById(id: Long): Character = repository.findById(id).orElseThrow { ResourceNotFoundException() }
 

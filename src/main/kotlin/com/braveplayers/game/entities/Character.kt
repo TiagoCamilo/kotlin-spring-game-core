@@ -10,4 +10,7 @@ data class Character(
         val id: Long = 0,
         val name: String = "",
         val level: Int = 0,
+
+        @ManyToOne
+        var guild: Guild? = null
 )

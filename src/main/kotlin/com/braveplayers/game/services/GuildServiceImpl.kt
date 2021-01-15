@@ -26,4 +26,8 @@ class GuildServiceImpl(val repository: GuildRepository): GuildService {
         return entity
     }
 
+    override fun findByName(name: String): Guild? {
+        return repository.findByName(name)?.firstOrNull()
+    }
+
 }
