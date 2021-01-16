@@ -47,7 +47,6 @@ class GuildController(private val service: GuildService) {
     fun update(@PathVariable id: Long, @Valid @RequestBody dto: GuildDto): ResponseEntity<GuildDto> {
         dto.id = id
         val mappedEntity: Guild = Mapper.convert(dto)
-
         val updatedEntity: GuildDto = Mapper.convert(service.update(mappedEntity))
 
         return ResponseEntity<GuildDto>(updatedEntity, HttpStatus.OK)
