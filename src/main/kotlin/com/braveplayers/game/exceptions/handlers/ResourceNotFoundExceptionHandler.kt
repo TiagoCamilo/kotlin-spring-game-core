@@ -1,7 +1,7 @@
 package com.braveplayers.game.exceptions.handlers
 
-import com.braveplayers.game.exceptions.responses.ExceptionResponse
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
+import com.braveplayers.game.exceptions.responses.ExceptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -20,7 +20,7 @@ class ResourceNotFoundExceptionHandler {
             e: ResourceNotFoundException,
             request: WebRequest
     ): ExceptionResponse {
-        return ExceptionResponse(Date(), e.message, request.getDescription(false) )
+        return ExceptionResponse(Date(), e.message, request.getDescription(false))
 
     }
 }

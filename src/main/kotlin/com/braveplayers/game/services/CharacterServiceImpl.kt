@@ -1,13 +1,16 @@
 package com.braveplayers.game.services
 
 import com.braveplayers.game.entities.Character
+import com.braveplayers.game.eventsListeners.events.CharacterUpdatedEvent
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
 import com.braveplayers.game.repositories.CharacterRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
 class CharacterServiceImpl(
         private val repository: CharacterRepository,
+        private val publisher: ApplicationEventPublisher,
         private val guildService: GuildService
 ) : CharacterService {
 
@@ -27,10 +30,13 @@ class CharacterServiceImpl(
     }
 
     override fun update(entity: Character): Character {
-        //Check: entity exists or throw exception
-        findById(entity.id)
         entity.guild = guildService.findByName(entity.guild?.name ?: "")
-        repository.save(entity)
-        return entity
+
+        val entityBeforeUpdate = findById(entity.id).copy()
+        val entityUpdated = repository.save(entity)
+
+        publisher.publishEvent(CharacterUpdatedEvent(entityBeforeUpdate, entityUpdated))
+
+        return entityUpdated
     }
 }
