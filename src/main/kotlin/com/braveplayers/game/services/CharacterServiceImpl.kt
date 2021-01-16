@@ -11,9 +11,9 @@ class CharacterServiceImpl(
         private val guildService: GuildService
 ) : CharacterService {
 
-    override fun create(character: Character): Character {
-        character.guild = guildService.findByName(character.guild?.name ?: "")
-        return repository.save(character)
+    override fun create(entity: Character): Character {
+        entity.guild = guildService.findByName(entity.guild?.name ?: "")
+        return repository.save(entity)
     }
 
     override fun findById(id: Long): Character = repository.findById(id).orElseThrow { ResourceNotFoundException() }
@@ -29,6 +29,7 @@ class CharacterServiceImpl(
     override fun update(entity: Character): Character {
         //Check: entity exists or throw exception
         findById(entity.id)
+        entity.guild = guildService.findByName(entity.guild?.name ?: "")
         repository.save(entity)
         return entity
     }

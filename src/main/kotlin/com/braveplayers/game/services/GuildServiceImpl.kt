@@ -6,11 +6,11 @@ import com.braveplayers.game.repositories.GuildRepository
 import org.springframework.stereotype.Service
 
 @Service
-class GuildServiceImpl(val repository: GuildRepository): GuildService {
-
-    override fun findById(id: Long): Guild = repository.findById(id).orElseThrow { ResourceNotFoundException() }
+class GuildServiceImpl(val repository: GuildRepository) : GuildService {
 
     override fun create(entity: Guild): Guild = repository.save(entity)
+
+    override fun findById(id: Long): Guild = repository.findById(id).orElseThrow { ResourceNotFoundException() }
 
     override fun findAll(): Collection<Guild> = repository.findAll()
 
@@ -29,5 +29,4 @@ class GuildServiceImpl(val repository: GuildRepository): GuildService {
     override fun findByName(name: String): Guild? {
         return repository.findByName(name)?.firstOrNull()
     }
-
 }
