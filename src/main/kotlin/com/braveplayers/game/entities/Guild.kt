@@ -1,5 +1,7 @@
 package com.braveplayers.game.entities
 
+import com.braveplayers.game.models.GuildProxy
+import com.braveplayers.game.util.Mapper
 import javax.persistence.*
 
 @Entity
@@ -12,5 +14,11 @@ data class Guild(
 
         @OneToMany(fetch = FetchType.LAZY)
         @JoinColumn(name = "guild_id")
-        val characters: Collection<Character> = emptySet()
-)
+        val characters: Collection<Character> = emptySet(),
+
+
+): GuildProxy {
+        override fun loadCharacters(): Collection<com.braveplayers.game.models.Character> {
+                return characters.map { Mapper.convert(it) }
+        }
+}

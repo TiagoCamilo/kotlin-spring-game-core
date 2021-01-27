@@ -23,15 +23,22 @@ class GuildController(private val service: GuildService) {
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<GuildDto> {
-        val modelEntity: com.braveplayers.game.models.Guild = Mapper.convert(service.findById(id))
+        val entity = service.findById(id)
+        val model: com.braveplayers.game.models.Guild = Mapper.convert(entity)
+        model.proxy = entity
 
-        println(modelEntity.name)
-        modelEntity.characters.forEach {
-            println(it.name)
-            println(it.guild?.name)
-        }
+//        println("Controller: ${model.name}")
+//        println(model.characters.size)
+//
+//        model.characters.forEach {
+//            println("Controller: ${it.name}")
+//            println("Controller: ${it.guild?.name}")
+////            it.guild?.characters?.forEach {
+////                println("Controller-Inner: ${it.name}")
+////            }
+//        }
 
-        val foundEntity: GuildDto = Mapper.convert(modelEntity)
+        val foundEntity: GuildDto = Mapper.convert(model)
 
         return ResponseEntity<GuildDto>(foundEntity, HttpStatus.OK)
     }

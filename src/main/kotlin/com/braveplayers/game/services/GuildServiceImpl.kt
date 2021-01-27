@@ -10,7 +10,11 @@ class GuildServiceImpl(val repository: GuildRepository) : GuildService {
 
     override fun create(entity: Guild): Guild = repository.save(entity)
 
-    override fun findById(id: Long): Guild = repository.findById(id).orElseThrow { ResourceNotFoundException() }
+    override fun findById(id: Long): Guild {
+        val entity: Guild = repository.findById(id).orElseThrow { ResourceNotFoundException() }
+        println("Service: ${entity.name}")
+        return entity
+    }
 
     override fun findAll(): Collection<Guild> = repository.findAll()
 

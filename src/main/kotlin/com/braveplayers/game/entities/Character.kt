@@ -11,6 +11,6 @@ data class Character(
         val name: String = "",
         val level: Int = 0,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         var guild: Guild? = null
 )
