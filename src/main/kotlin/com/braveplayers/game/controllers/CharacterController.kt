@@ -1,6 +1,7 @@
 package com.braveplayers.game.controllers
 
 import com.braveplayers.game.dtos.CharacterDto
+import com.braveplayers.game.dtos.GuildCharacterDto
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.services.CharacterService
 import com.braveplayers.game.util.Mapper
@@ -22,10 +23,10 @@ class CharacterController(private val service: CharacterService) {
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): ResponseEntity<CharacterDto> {
-        val foundEntity: CharacterDto = Mapper.convert(service.findById(id))
+    fun findById(@PathVariable id: Long): ResponseEntity<GuildCharacterDto> {
+        val foundEntity: GuildCharacterDto = Mapper.convert(service.findById(id))
 
-        return ResponseEntity<CharacterDto>(foundEntity, HttpStatus.OK)
+        return ResponseEntity<GuildCharacterDto>(foundEntity, HttpStatus.OK)
     }
 
     @GetMapping()
