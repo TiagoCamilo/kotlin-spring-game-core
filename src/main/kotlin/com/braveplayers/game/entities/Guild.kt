@@ -8,7 +8,9 @@ data class Guild(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0,
-        val name: String = ""
-) {
+        val name: String = "",
 
-}
+        @OneToMany(fetch = FetchType.LAZY)
+        @JoinColumn(name = "guild_id")
+        val characters: Collection<Character> = emptySet()
+)
