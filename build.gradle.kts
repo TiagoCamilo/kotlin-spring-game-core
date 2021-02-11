@@ -16,6 +16,8 @@ repositories {
     mavenCentral()
 }
 
+extra["springCloudVersion"] = "2020.0.1"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -25,7 +27,7 @@ dependencies {
     implementation("org.modelmapper:modelmapper:2.3.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.2")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
@@ -34,6 +36,13 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:3.7.0")
 }
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
+}
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
