@@ -50,9 +50,9 @@ class GuildControllerTest {
     @Test
     fun findAll_ResponseEntityWithHttp200AndCollectionOfGuildDto() {
         val dtoCollection: Collection<GuildDto> = listOf(
-                GuildDto("guild1"),
-                GuildDto("guild2"),
-                GuildDto("guild3"),
+            GuildDto("guild1"),
+            GuildDto("guild2"),
+            GuildDto("guild3"),
         )
         val entityCollection: Collection<Guild> = dtoCollection.map { Mapper.convert(it) }
 

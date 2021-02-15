@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CharacterServiceImpl(
-        private val repository: CharacterRepository,
-        private val publisher: ApplicationEventPublisher,
-        private val guildService: GuildService
+    private val repository: CharacterRepository,
+    private val publisher: ApplicationEventPublisher,
+    private val guildService: GuildService
 ) : CharacterService {
 
     override fun create(entity: Character): Character {

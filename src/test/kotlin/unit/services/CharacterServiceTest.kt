@@ -59,9 +59,9 @@ class CharacterServiceTest {
     @Test
     fun findAll_Characters() {
         val entityCollection: MutableList<Character> = mutableListOf(
-                Character(1, "character1", 100),
-                Character(2, "character2", 200),
-                Character(3, "character3", 300),
+            Character(1, "character1", 100),
+            Character(2, "character2", 200),
+            Character(3, "character3", 300),
         )
 
         given(repository.findAll()).willReturn(entityCollection)

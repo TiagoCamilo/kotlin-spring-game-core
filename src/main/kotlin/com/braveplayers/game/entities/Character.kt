@@ -5,12 +5,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "character")
 data class Character(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0,
-        val name: String = "",
-        val level: Int = 0,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+    val name: String = "",
+    val level: Int = 0,
 
-        @ManyToOne
-        var guild: Guild? = null
+    @ManyToOne
+    var guild: Guild? = null
 )

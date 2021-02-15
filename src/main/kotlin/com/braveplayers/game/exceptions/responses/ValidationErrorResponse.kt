@@ -8,7 +8,7 @@ class ValidationErrorResponse {
     }
 
     data class Violation(
-            val fieldName: String,
-            val message: String?
+        val fieldName: String,
+        val message: String?
     )
 }

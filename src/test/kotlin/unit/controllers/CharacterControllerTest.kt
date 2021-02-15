@@ -50,9 +50,9 @@ class CharacterControllerTest {
     @Test
     fun findAll_ResponseEntityWithHttp200AndCollectionOfCharacterDto() {
         val dtoCollection: Collection<CharacterDto> = listOf(
-                CharacterDto("character1", 100),
-                CharacterDto("character2", 200),
-                CharacterDto("character3", 300),
+            CharacterDto("character1", 100),
+            CharacterDto("character2", 200),
+            CharacterDto("character3", 300),
         )
         val entityCollection: Collection<Character> = dtoCollection.map { Mapper.convert(it) }
 

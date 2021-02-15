@@ -59,9 +59,9 @@ class GuildServiceTest {
     @Test
     fun findAll_Guild() {
         val entityCollection: MutableList<Guild> = mutableListOf(
-                Guild(1, "guild1"),
-                Guild(2, "guild2"),
-                Guild(3, "guild3"),
+            Guild(1, "guild1"),
+            Guild(2, "guild2"),
+            Guild(3, "guild3"),
         )
 
         given(repository.findAll()).willReturn(entityCollection)

@@ -17,8 +17,8 @@ class ResourceNotFoundExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     fun execute(
-            e: ResourceNotFoundException,
-            request: WebRequest
+        e: ResourceNotFoundException,
+        request: WebRequest
     ): ExceptionResponse {
         return ExceptionResponse(Date(), e.message, request.getDescription(false))
 

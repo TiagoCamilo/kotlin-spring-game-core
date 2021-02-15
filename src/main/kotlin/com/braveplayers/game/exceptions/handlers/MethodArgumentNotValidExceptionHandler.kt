@@ -15,7 +15,8 @@ class MethodArgumentNotValidExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     fun execute(
-            e: MethodArgumentNotValidException): ValidationErrorResponse {
+        e: MethodArgumentNotValidException
+    ): ValidationErrorResponse {
 
         val error = ValidationErrorResponse()
 
