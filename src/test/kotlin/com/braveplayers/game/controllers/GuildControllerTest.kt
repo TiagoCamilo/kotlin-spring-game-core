@@ -4,6 +4,7 @@ import com.braveplayers.game.dtos.GuildDto
 import com.braveplayers.game.entities.Guild
 import com.braveplayers.game.services.GuildService
 import com.braveplayers.game.util.Mapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -11,9 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(GuildController::class)
 class GuildControllerTest {
+
+    @Autowired
+    lateinit var mvc: MockMvc
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     @Autowired
     lateinit var controller: GuildController
@@ -22,28 +35,34 @@ class GuildControllerTest {
     lateinit var service: GuildService
 
     @Test
-    fun findBy_ResponseEntityWithHttp200AndGuildDto() {
-        val id = 1L
+    fun findBy_ResponseEntityWithHttpStatusOKAndGuildDto() {
         val dto = GuildDto("guild1")
-        val entity = Guild(id, "guild1")
+        dto.id = 1L;
+        val entity: Guild = Mapper.convert(dto)
+        given(service.findById(dto.id)).willReturn(entity)
 
-        given(service.findById(id)).willReturn(entity)
-        val responseEntity = controller.findById(id)
-
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        mvc.perform(
+            get("/guilds/{id}", dto.id.toString())
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
     }
 
     @Test
-    fun create_ResponseEntityWithHttp201AndGuildDto() {
+    fun create_ResponseEntityWithHttpStatusCREATEDAndGuildDto() {
         val dto = GuildDto("guild1")
         val entity: Guild = Mapper.convert(dto)
-
         given(service.create(entity)).willReturn(entity)
-        val responseEntity = controller.create(dto)
 
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.CREATED, responseEntity.statusCode)
+        mvc.perform(
+            post("/guilds")
+                .content(objectMapper.writeValueAsString(dto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.id").exists())
+            .andExpect(jsonPath("$.name").value(dto.name))
     }
 
     @Test
