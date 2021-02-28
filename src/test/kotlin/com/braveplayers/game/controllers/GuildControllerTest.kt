@@ -7,7 +7,9 @@ import com.braveplayers.game.util.Mapper
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.*
+import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -47,6 +49,8 @@ class GuildControllerTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(dto.id))
             .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).findById(dto.id)
     }
 
     @Test
@@ -63,6 +67,8 @@ class GuildControllerTest {
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.id").exists())
             .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).create(entity)
     }
 
     @Test
