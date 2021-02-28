@@ -1,9 +1,8 @@
-package com.braveplayers.game
+package com.braveplayers.game.services
 
-import com.braveplayers.game.entities.Character
+import com.braveplayers.game.entities.Guild
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
-import com.braveplayers.game.repositories.CharacterRepository
-import com.braveplayers.game.services.CharacterService
+import com.braveplayers.game.repositories.GuildRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -11,23 +10,23 @@ import org.mockito.BDDMockito.given
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import java.util.*
 
-@SpringBootTest
-class CharacterServiceTest {
+@WebMvcTest(GuildService::class)
+class GuildServiceTest {
 
     @Autowired
-    lateinit var service: CharacterService
+    lateinit var service: GuildService
 
     @MockBean
-    lateinit var repository: CharacterRepository
+    lateinit var repository: GuildRepository
 
     @Test
-    fun findById_Character() {
+    fun findById_Guild() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "guild1")
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
 
@@ -46,9 +45,9 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun create_Character() {
+    fun create_Guild() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "character1")
 
         given(repository.save(entity)).willReturn(entity)
 
@@ -57,11 +56,11 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun findAll_Characters() {
-        val entityCollection: MutableList<Character> = mutableListOf(
-            Character(1, "character1", 100),
-            Character(2, "character2", 200),
-            Character(3, "character3", 300),
+    fun findAll_Guild() {
+        val entityCollection: MutableList<Guild> = mutableListOf(
+            Guild(1, "guild1"),
+            Guild(2, "guild2"),
+            Guild(3, "guild3"),
         )
 
         given(repository.findAll()).willReturn(entityCollection)
@@ -70,9 +69,9 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun delete_Character() {
+    fun delete_Guild() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "guild1")
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
 
@@ -83,7 +82,7 @@ class CharacterServiceTest {
     @Test
     fun delete_ThrowResourceNotFoundException() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "guild1")
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
             service.delete(id)
@@ -95,9 +94,9 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun update_Character() {
+    fun update_Guild() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "guild1")
 
         given(repository.findById(id)).willReturn(Optional.of(entity))
         given(repository.save(entity)).willReturn(entity)
@@ -109,7 +108,7 @@ class CharacterServiceTest {
     @Test
     fun update_ThrowResourceNotFoundException() {
         val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = Guild(id, "guild1")
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
             service.update(entity)

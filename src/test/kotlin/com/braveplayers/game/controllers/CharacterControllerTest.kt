@@ -1,6 +1,5 @@
-package com.braveplayers.game
+package com.braveplayers.game.controllers
 
-import com.braveplayers.game.controllers.CharacterController
 import com.braveplayers.game.dtos.CharacterDto
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.services.CharacterService
@@ -9,11 +8,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
 
-@SpringBootTest
+@WebMvcTest(CharacterController::class)
 class CharacterControllerTest {
 
     @Autowired
