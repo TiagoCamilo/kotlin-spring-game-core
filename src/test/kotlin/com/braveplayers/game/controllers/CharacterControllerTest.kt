@@ -4,89 +4,129 @@ import com.braveplayers.game.dtos.CharacterDto
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.services.CharacterService
 import com.braveplayers.game.util.Mapper
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(CharacterController::class)
 class CharacterControllerTest {
 
+    private val baseUrl = "characters"
+
     @Autowired
-    lateinit var controller: CharacterController
+    lateinit var mvc: MockMvc
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     @MockBean
     lateinit var service: CharacterService
 
-    @Test
-    fun findBy_ResponseEntityWithHttp200AndCharacterDto() {
-        val id = 1L
+    private fun getDtoInstance(): CharacterDto {
         val dto = CharacterDto("character1", 100)
-        val entity = Character(id, "character1", 100)
+        dto.id = 1L;
+        return dto;
+    }
 
-        given(service.findById(id)).willReturn(entity)
-        val responseEntity = controller.findById(id)
-
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+    private fun getEntityInstance(): Character {
+        return Mapper.convert(getDtoInstance())
     }
 
     @Test
-    fun create_ResponseEntityWithHttp201AndCharacterDto() {
-        val dto = CharacterDto("character1", 100)
-        val entity: Character = Mapper.convert(dto)
+    fun findBy_ResponseEntityWithHttpStatusOKAndCharacterDto() {
+        val dto = getDtoInstance()
+        val entity = getEntityInstance()
+        given(service.findById(dto.id)).willReturn(entity)
 
+        mvc.perform(
+            get("/$baseUrl/{id}", dto.id.toString())
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).findById(dto.id)
+    }
+
+    @Test
+    fun create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto() {
+        val dto = getDtoInstance()
+        val entity = getEntityInstance()
         given(service.create(entity)).willReturn(entity)
-        val responseEntity = controller.create(dto)
 
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.CREATED, responseEntity.statusCode)
+        mvc.perform(
+            post("/$baseUrl")
+                .content(objectMapper.writeValueAsString(dto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).create(entity)
     }
 
     @Test
-    fun findAll_ResponseEntityWithHttp200AndCollectionOfCharacterDto() {
+    fun findAll_ResponseEntityWithHttpStatusOKAndCollectionOfCharacterDto() {
         val dtoCollection: Collection<CharacterDto> = listOf(
-            CharacterDto("character1", 100),
-            CharacterDto("character2", 200),
-            CharacterDto("character3", 300),
+            CharacterDto("character1"),
+            CharacterDto("character2"),
+            CharacterDto("character3"),
         )
         val entityCollection: Collection<Character> = dtoCollection.map { Mapper.convert(it) }
-
         given(service.findAll()).willReturn(entityCollection)
-        val responseEntity = controller.findAll()
 
-        assertEquals(dtoCollection, responseEntity.body)
-        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        mvc.perform(
+            get("/$baseUrl")
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()").value(3))
+            .andExpect(jsonPath("$.[*].id").exists())
+            .andExpect(jsonPath("$.[*].name").exists())
+
+        verify(service, times(1)).findAll()
     }
 
     @Test
-    fun delete_ResponseEntityWithHttp200AndCharacterDto() {
-        val id = 1L
-        val dto = CharacterDto("character1", 100)
-        val entity: Character = Mapper.convert(dto)
+    fun delete_ResponseEntityWithHttpStatusOKAndCharacterDto() {
+        val dto = getDtoInstance()
+        val entity = getEntityInstance()
+        given(service.delete(dto.id)).willReturn(entity)
 
-        given(service.delete(id)).willReturn(entity)
-        val responseEntity = controller.delete(id)
+        mvc.perform(
+            delete("/$baseUrl/{id}", dto.id.toString())
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
 
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        verify(service, times(1)).delete(dto.id)
     }
 
     @Test
-    fun update_ResponseEntityWithHttp200AndCharacterDto() {
-        val id = 1L
-        val dto = CharacterDto("character1", 100)
-        dto.id = id
-        val entity: Character = Mapper.convert(dto)
-
+    fun update_ResponseEntityWithHttpStatusOKAndCharacterDto() {
+        val dto = getDtoInstance()
+        val entity = getEntityInstance()
         given(service.update(entity)).willReturn(entity)
-        val responseEntity = controller.update(id, dto)
 
-        assertEquals(dto, responseEntity.body)
-        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        mvc.perform(
+            put("/$baseUrl/{id}", dto.id.toString())
+                .content(objectMapper.writeValueAsString(dto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).update(entity)
     }
 
 }
