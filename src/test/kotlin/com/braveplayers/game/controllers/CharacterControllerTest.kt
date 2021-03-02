@@ -6,6 +6,9 @@ import com.braveplayers.game.services.CharacterService
 import com.braveplayers.game.util.Mapper
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.BDDMockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -40,6 +43,35 @@ class CharacterControllerTest {
         return Mapper.convert(getDtoInstance())
     }
 
+    companion object {
+        @JvmStatic
+        fun provideValidDtoInstance(): List<Arguments> {
+            return listOf(
+                Arguments.of(CharacterDto("character1", 100)),
+                Arguments.of(CharacterDto("character1", 100, "guild01")),
+            )
+        }
+    }
+
+    @ParameterizedTest(name = "create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto: {0}")
+    @MethodSource("provideValidDtoInstance")
+    fun create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto(dto: CharacterDto) {
+        val entity: Character = Mapper.convert(dto)
+        given(service.create(entity)).willReturn(entity)
+
+        mvc.perform(
+            post("/$baseUrl")
+                .content(objectMapper.writeValueAsString(dto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.id").value(dto.id))
+            .andExpect(jsonPath("$.name").value(dto.name))
+
+        verify(service, times(1)).create(entity)
+    }
+
+
     @Test
     fun findBy_ResponseEntityWithHttpStatusOKAndCharacterDto() {
         val dto = getDtoInstance()
@@ -54,24 +86,6 @@ class CharacterControllerTest {
             .andExpect(jsonPath("$.name").value(dto.name))
 
         verify(service, times(1)).findById(dto.id)
-    }
-
-    @Test
-    fun create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto() {
-        val dto = getDtoInstance()
-        val entity = getEntityInstance()
-        given(service.create(entity)).willReturn(entity)
-
-        mvc.perform(
-            post("/$baseUrl")
-                .content(objectMapper.writeValueAsString(dto))
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.id").value(dto.id))
-            .andExpect(jsonPath("$.name").value(dto.name))
-
-        verify(service, times(1)).create(entity)
     }
 
     @Test

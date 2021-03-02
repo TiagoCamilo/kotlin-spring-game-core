@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service
 class CharacterServiceImpl(
     private val repository: CharacterRepository,
     private val publisher: ApplicationEventPublisher,
-    private val guildService: GuildService
 ) : CharacterService {
 
     override fun create(entity: Character): Character {
-        entity.guild = guildService.findByName(entity.guild?.name ?: "")
         return repository.save(entity)
     }
 
@@ -30,8 +28,6 @@ class CharacterServiceImpl(
     }
 
     override fun update(entity: Character): Character {
-        entity.guild = guildService.findByName(entity.guild?.name ?: "")
-
         val entityBeforeUpdate = findById(entity.id).copy()
         val entityUpdated = repository.save(entity)
 

@@ -11,6 +11,5 @@ data class Character(
     val name: String = "",
     val level: Int = 0,
 
-    @ManyToOne
-    var guild: Guild? = null
+    var guildName: String? = ""
 )

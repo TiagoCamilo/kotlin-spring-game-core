@@ -38,6 +38,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:3.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.0.0")
 }
 
 dependencyManagement {
