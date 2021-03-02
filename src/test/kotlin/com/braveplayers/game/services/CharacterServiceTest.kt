@@ -1,5 +1,6 @@
 package com.braveplayers.game.services
 
+import com.braveplayers.game.dtos.CharacterDto
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
 import com.braveplayers.game.repositories.CharacterRepository
@@ -23,17 +24,13 @@ class CharacterServiceTest {
     @MockBean
     lateinit var repository: CharacterRepository
 
-    @MockBean
-    lateinit var guildService: GuildService;
-
     @Test
     fun findById_Character() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
-        given(repository.findById(id)).willReturn(Optional.of(entity))
+        given(repository.findById(entity.id)).willReturn(Optional.of(entity))
 
-        assertEquals(entity, service.findById(id))
+        assertEquals(entity, service.findById(entity.id))
     }
 
     @Test
@@ -49,8 +46,7 @@ class CharacterServiceTest {
 
     @Test
     fun create_Character() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
         given(repository.save(entity)).willReturn(entity)
 
@@ -61,9 +57,7 @@ class CharacterServiceTest {
     @Test
     fun findAll_Characters() {
         val entityCollection: MutableList<Character> = mutableListOf(
-            Character(1, "character1", 100),
-            Character(2, "character2", 200),
-            Character(3, "character3", 300),
+            getEntityInstance()
         )
 
         given(repository.findAll()).willReturn(entityCollection)
@@ -73,22 +67,20 @@ class CharacterServiceTest {
 
     @Test
     fun delete_Character() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
-        given(repository.findById(id)).willReturn(Optional.of(entity))
+        given(repository.findById(entity.id)).willReturn(Optional.of(entity))
 
-        assertEquals(entity, service.delete(id))
+        assertEquals(entity, service.delete(entity.id))
         verify(repository, times(1)).delete(entity)
     }
 
     @Test
     fun delete_ThrowResourceNotFoundException() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
-            service.delete(id)
+            service.delete(entity.id)
         }
 
         assertEquals("Not Found", exception.message)
@@ -98,10 +90,9 @@ class CharacterServiceTest {
 
     @Test
     fun update_Character() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
-        given(repository.findById(id)).willReturn(Optional.of(entity))
+        given(repository.findById(entity.id)).willReturn(Optional.of(entity))
         given(repository.save(entity)).willReturn(entity)
 
         assertEquals(entity, service.update(entity))
@@ -110,14 +101,28 @@ class CharacterServiceTest {
 
     @Test
     fun update_ThrowResourceNotFoundException() {
-        val id = 1L
-        val entity = Character(id, "character1", 100)
+        val entity = getEntityInstance()
 
         val exception = assertThrows(ResourceNotFoundException::class.java) {
             service.update(entity)
         }
 
         assertEquals("Not Found", exception.message)
+    }
+
+    companion object {
+        fun getEntityInstance(): Character {
+            val entity = Character(
+                id = 1L,
+                name = "character01",
+                level = 100,
+                guildName = "guild01",
+                worldName = "world01",
+                vocation = "vocation01"
+            )
+
+            return entity;
+        }
     }
 
 }

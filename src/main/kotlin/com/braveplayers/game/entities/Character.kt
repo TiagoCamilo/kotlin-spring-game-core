@@ -7,9 +7,11 @@ import javax.persistence.*
 data class Character(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
-    val name: String = "",
-    val level: Int = 0,
+    val id: Long,
+    val name: String,
+    val level: Int,
 
-    var guildName: String? = ""
+    var guildName: String? = "",
+    var worldName: String,
+    var vocation: String
 )

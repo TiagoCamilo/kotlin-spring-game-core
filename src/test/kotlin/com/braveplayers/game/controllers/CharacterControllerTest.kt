@@ -33,26 +33,6 @@ class CharacterControllerTest {
     @MockBean
     lateinit var service: CharacterService
 
-    private fun getDtoInstance(): CharacterDto {
-        val dto = CharacterDto("character1", 100)
-        dto.id = 1L;
-        return dto;
-    }
-
-    private fun getEntityInstance(): Character {
-        return Mapper.convert(getDtoInstance())
-    }
-
-    companion object {
-        @JvmStatic
-        fun provideValidDtoInstance(): List<Arguments> {
-            return listOf(
-                Arguments.of(CharacterDto("character1", 100)),
-                Arguments.of(CharacterDto("character1", 100, "guild01")),
-            )
-        }
-    }
-
     @ParameterizedTest(name = "create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto: {0}")
     @MethodSource("provideValidDtoInstance")
     fun create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto(dto: CharacterDto) {
@@ -141,6 +121,39 @@ class CharacterControllerTest {
             .andExpect(jsonPath("$.name").value(dto.name))
 
         verify(service, times(1)).update(entity)
+    }
+
+    companion object {
+        fun getDtoInstance(): CharacterDto {
+            val dto = CharacterDto(
+                name = "character01",
+                level = 100,
+                guildName = "guild01",
+                worldName = "world01",
+                vocation = "vocation01"
+            )
+            dto.id = 1L;
+            return dto;
+        }
+
+        fun getEntityInstance(): Character {
+            return Mapper.convert(getDtoInstance())
+        }
+
+        @JvmStatic
+        fun provideValidDtoInstance(): List<Arguments> {
+            return listOf(
+                Arguments.of(getDtoInstance()),
+                Arguments.of(
+                    CharacterDto(
+                        name = "character01",
+                        level = 100,
+                        worldName = "world01",
+                        vocation = "vocation01"
+                    )
+                ),
+            )
+        }
     }
 
 }
