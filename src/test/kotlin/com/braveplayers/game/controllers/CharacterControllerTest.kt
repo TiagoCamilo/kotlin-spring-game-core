@@ -51,6 +51,21 @@ class CharacterControllerTest {
         verify(service, times(1)).create(entity)
     }
 
+    @ParameterizedTest(name = "create_ResponseEntityWithHttpStatusBADREQUESTAndListOfErrors: {0}")
+    @MethodSource("provideInvalidDtoInstance")
+    fun create_ResponseEntityWithHttpStatusBADREQUEST(dto: CharacterDto) {
+        val entity: Character = Mapper.convert(dto)
+
+        mvc.perform(
+            post("/$baseUrl")
+                .content(objectMapper.writeValueAsString(dto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.violations.length()").value(4))
+
+        verify(service, times(0)).create(entity)
+    }
 
     @Test
     fun findBy_ResponseEntityWithHttpStatusOKAndCharacterDto() {
@@ -150,6 +165,20 @@ class CharacterControllerTest {
                         level = 100,
                         worldName = "world01",
                         vocation = "vocation01"
+                    )
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun provideInvalidDtoInstance(): List<Arguments> {
+            return listOf(
+                Arguments.of(
+                    CharacterDto(
+                        name = "",
+                        level = 0,
+                        worldName = "",
+                        vocation = ""
                     )
                 ),
             )
