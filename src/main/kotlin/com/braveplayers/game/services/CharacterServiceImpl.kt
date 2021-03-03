@@ -1,7 +1,7 @@
 package com.braveplayers.game.services
 
-import com.braveplayers.game.entities.Character
 import com.braveplayers.game.dtos.CharacterUpdatedMessageDto
+import com.braveplayers.game.entities.Character
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
 import com.braveplayers.game.repositories.CharacterRepository
 import org.springframework.stereotype.Service
@@ -30,7 +30,7 @@ class CharacterServiceImpl(
         val entityBeforeUpdate = findById(entity.id).copy()
         val entityUpdated = repository.save(entity)
 
-        if(entityBeforeUpdate != entityUpdated) {
+        if (entityBeforeUpdate != entityUpdated) {
             messagingService.send(CharacterUpdatedMessageDto(entityBeforeUpdate, entityUpdated))
         }
 
