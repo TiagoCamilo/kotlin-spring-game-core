@@ -3,13 +3,14 @@ package com.braveplayers.game.services
 import com.braveplayers.game.dtos.CharacterUpdatedMessageDto
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
+import com.braveplayers.game.producers.CharacterProducer
 import com.braveplayers.game.repositories.CharacterRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CharacterServiceImpl(
     private val repository: CharacterRepository,
-    private val messagingService: MessagingService,
+    private val characterProducer: CharacterProducer,
 ) : CharacterService {
 
     override fun create(entity: Character): Character {
@@ -31,7 +32,7 @@ class CharacterServiceImpl(
         val entityUpdated = repository.save(entity)
 
         if (entityBeforeUpdate != entityUpdated) {
-            messagingService.send(CharacterUpdatedMessageDto(entityBeforeUpdate, entityUpdated))
+            characterProducer.produce(CharacterUpdatedMessageDto(entityBeforeUpdate, entityUpdated))
         }
 
         return entityUpdated

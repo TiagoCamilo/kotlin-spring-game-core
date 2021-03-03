@@ -2,6 +2,7 @@ package com.braveplayers.game.services
 
 import com.braveplayers.game.entities.Character
 import com.braveplayers.game.exceptions.classes.ResourceNotFoundException
+import com.braveplayers.game.producers.CharacterProducer
 import com.braveplayers.game.repositories.CharacterRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -24,7 +25,7 @@ class CharacterServiceTest {
     lateinit var repository: CharacterRepository
 
     @MockBean
-    lateinit var messagingService: MessagingService
+    lateinit var characterProducer: CharacterProducer
 
     @Test
     fun findById_Character() {

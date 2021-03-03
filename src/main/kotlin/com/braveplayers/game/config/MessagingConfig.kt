@@ -5,18 +5,19 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.amqp.support.converter.MessageConverter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class MessagingConfig {
-
-    companion object {
-        const val QUEUE = "game_queue"
-        const val EXCHANGE = "game_exchange"
-        const val ROUTING_KEY = "game_routingKey"
-    }
-
+class MessagingConfig(
+    @Value("\${messaging.queue.name}")
+    val QUEUE: String,
+    @Value("\${messaging.exchange.name}")
+    val EXCHANGE: String,
+    @Value("\${messaging.routingkey.name}")
+    val ROUTING_KEY: String,
+) {
     @Bean
     fun queue(): Queue {
         return Queue(QUEUE)
