@@ -1,8 +1,8 @@
-package com.braveplayers.game.eventsListeners.events
+package com.braveplayers.game.dtos
 
 import com.braveplayers.game.entities.Character
 
-data class CharacterUpdatedEvent(
+data class CharacterUpdatedMessageDto(
     val oldCharacter: Character,
     val newCharacter: Character
 )

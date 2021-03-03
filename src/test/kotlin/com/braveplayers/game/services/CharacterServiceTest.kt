@@ -24,6 +24,9 @@ class CharacterServiceTest {
     @MockBean
     lateinit var repository: CharacterRepository
 
+    @MockBean
+    lateinit var messagingService: MessagingService
+
     @Test
     fun findById_Character() {
         val entity = getEntityInstance()
