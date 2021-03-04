@@ -30,7 +30,7 @@ class CharacterServiceImpl(
             return entity;
         }
 
-        characterProducer.produce(CharacterUpdatedMessageDto(entity, entityExisting))
+        characterProducer.produce(CharacterUpdatedMessageDto(entityExisting, entity))
 
         return repository.save(entity)
     }
