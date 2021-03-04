@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
-
+    implementation("org.postgresql:postgresql")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
