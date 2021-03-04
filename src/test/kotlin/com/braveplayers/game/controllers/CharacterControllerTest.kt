@@ -33,11 +33,11 @@ class CharacterControllerTest {
     @MockBean
     lateinit var service: CharacterService
 
-    @ParameterizedTest(name = "create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto: {0}")
+    @ParameterizedTest(name = "createOrUpdate_ResponseEntityWithHttpStatusCREATEDAndCharacterDto: {0}")
     @MethodSource("provideValidDtoInstance")
-    fun create_ResponseEntityWithHttpStatusCREATEDAndCharacterDto(dto: CharacterDto) {
+    fun createOrUpdate_ResponseEntityWithHttpStatusCREATEDAndCharacterDto(dto: CharacterDto) {
         val entity: Character = Mapper.convert(dto)
-        given(service.create(entity)).willReturn(entity)
+        given(service.createOrUpdate(entity)).willReturn(entity)
 
         mvc.perform(
             post("/$baseUrl")
@@ -48,12 +48,12 @@ class CharacterControllerTest {
             .andExpect(jsonPath("$.id").value(dto.id))
             .andExpect(jsonPath("$.name").value(dto.name))
 
-        verify(service, times(1)).create(entity)
+        verify(service, times(1)).createOrUpdate(entity)
     }
 
-    @ParameterizedTest(name = "create_ResponseEntityWithHttpStatusBADREQUESTAndListOfErrors: {0}")
+    @ParameterizedTest(name = "createOrUpdate_ResponseEntityWithHttpStatusBADREQUESTAndListOfErrors: {0}")
     @MethodSource("provideInvalidDtoInstance")
-    fun create_ResponseEntityWithHttpStatusBADREQUEST(dto: CharacterDto) {
+    fun createOrUpdate_ResponseEntityWithHttpStatusBADREQUEST(dto: CharacterDto) {
         val entity: Character = Mapper.convert(dto)
 
         mvc.perform(
@@ -64,7 +64,7 @@ class CharacterControllerTest {
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.violations.length()").value(4))
 
-        verify(service, times(0)).create(entity)
+        verify(service, times(0)).createOrUpdate(entity)
     }
 
     @Test

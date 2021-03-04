@@ -48,12 +48,12 @@ class CharacterServiceTest {
     }
 
     @Test
-    fun create_Character() {
+    fun createOrUpdate_Character() {
         val entity = getEntityInstance()
 
         given(repository.save(entity)).willReturn(entity)
 
-        assertEquals(entity, service.create(entity))
+        assertEquals(entity, service.createOrUpdate(entity))
         verify(repository, times(1)).save(entity)
     }
 

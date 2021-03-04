@@ -13,7 +13,13 @@ class CharacterServiceImpl(
     private val characterProducer: CharacterProducer,
 ) : CharacterService {
 
-    override fun create(entity: Character): Character {
+    override fun createOrUpdate(entity: Character): Character {
+        val entitySaved = repository.findByName(entity.name)
+
+        if (entitySaved != null) {
+            entity.id = entitySaved.id
+        }
+
         return repository.save(entity)
     }
 

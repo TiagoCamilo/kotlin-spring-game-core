@@ -7,7 +7,9 @@ import javax.persistence.*
 data class Character(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    var id: Long,
+
+    @Column(unique = true)
     val name: String,
     val level: Int,
 

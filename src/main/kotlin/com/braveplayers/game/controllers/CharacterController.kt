@@ -14,9 +14,9 @@ import javax.validation.Valid
 class CharacterController(private val service: CharacterService) {
 
     @PostMapping
-    fun create(@Valid @RequestBody dto: CharacterDto): ResponseEntity<CharacterDto> {
+    fun createOrUpdate(@Valid @RequestBody dto: CharacterDto): ResponseEntity<CharacterDto> {
         val mappedEntity: Character = Mapper.convert(dto)
-        val createdEntity: CharacterDto = Mapper.convert(service.create(mappedEntity))
+        val createdEntity: CharacterDto = Mapper.convert(service.createOrUpdate(mappedEntity))
 
         return ResponseEntity<CharacterDto>(createdEntity, HttpStatus.CREATED)
     }
