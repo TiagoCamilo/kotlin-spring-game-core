@@ -91,28 +91,6 @@ class CharacterServiceTest {
 
     }
 
-    @Test
-    fun update_Character() {
-        val entity = getEntityInstance()
-
-        given(repository.findById(entity.id)).willReturn(Optional.of(entity))
-        given(repository.save(entity)).willReturn(entity)
-
-        assertEquals(entity, service.update(entity))
-        verify(repository, times(1)).save(entity)
-    }
-
-    @Test
-    fun update_ThrowResourceNotFoundException() {
-        val entity = getEntityInstance()
-
-        val exception = assertThrows(ResourceNotFoundException::class.java) {
-            service.update(entity)
-        }
-
-        assertEquals("Not Found", exception.message)
-    }
-
     companion object {
         fun getEntityInstance(): Character {
             val entity = Character(

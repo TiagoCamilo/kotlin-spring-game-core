@@ -14,11 +14,23 @@ class CharacterServiceImpl(
 ) : CharacterService {
 
     override fun createOrUpdate(entity: Character): Character {
-        val entitySaved = repository.findByName(entity.name)
+        val entityExisting = repository.findByName(entity.name)?.copy()
 
-        if (entitySaved != null) {
-            entity.id = entitySaved.id
+        if (entityExisting != null) {
+            return update(entity, entityExisting)
         }
+
+        return repository.save(entity)
+    }
+
+    private fun update(entity: Character, entityExisting: Character): Character {
+        entity.id = entityExisting.id
+
+        if (entity == entityExisting) {
+            return entity;
+        }
+
+        characterProducer.produce(CharacterUpdatedMessageDto(entity, entityExisting))
 
         return repository.save(entity)
     }
@@ -33,14 +45,4 @@ class CharacterServiceImpl(
         return entity
     }
 
-    override fun update(entity: Character): Character {
-        val entityBeforeUpdate = findById(entity.id).copy()
-        val entityUpdated = repository.save(entity)
-
-        if (entityBeforeUpdate != entityUpdated) {
-            characterProducer.produce(CharacterUpdatedMessageDto(entityBeforeUpdate, entityUpdated))
-        }
-
-        return entityUpdated
-    }
 }

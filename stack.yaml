@@ -1,0 +1,29 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    container_name: game-core-db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: game-core
+
+  adminer:
+    image: adminer
+    container_name: game-core-admin-db
+    restart: always
+    ports:
+      - 8090:8080
+
+  game-rabbit:
+    image: rabbitmq:3-management
+    container_name: game-rabbit
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672

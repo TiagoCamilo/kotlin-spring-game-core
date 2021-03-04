@@ -43,12 +43,4 @@ class CharacterController(private val service: CharacterService) {
         return ResponseEntity<CharacterDto>(deletedEntity, HttpStatus.OK)
     }
 
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @Valid @RequestBody dto: CharacterDto): ResponseEntity<CharacterDto> {
-        dto.id = id
-        val mappedEntity: Character = Mapper.convert(dto)
-        val updatedEntity: CharacterDto = Mapper.convert(service.update(mappedEntity))
-
-        return ResponseEntity<CharacterDto>(updatedEntity, HttpStatus.OK)
-    }
 }

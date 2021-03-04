@@ -120,24 +120,6 @@ class CharacterControllerTest {
         verify(service, times(1)).delete(dto.id)
     }
 
-    @Test
-    fun update_ResponseEntityWithHttpStatusOKAndCharacterDto() {
-        val dto = getDtoInstance()
-        val entity = getEntityInstance()
-        given(service.update(entity)).willReturn(entity)
-
-        mvc.perform(
-            put("/$baseUrl/{id}", dto.id.toString())
-                .content(objectMapper.writeValueAsString(dto))
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(dto.id))
-            .andExpect(jsonPath("$.name").value(dto.name))
-
-        verify(service, times(1)).update(entity)
-    }
-
     companion object {
         fun getDtoInstance(): CharacterDto {
             val dto = CharacterDto(
