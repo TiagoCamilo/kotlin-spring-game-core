@@ -13,7 +13,7 @@ class MessagingProducer(val amqpTemplate: AmqpTemplate, val messagingConfig: Mes
 
     fun send(content: Any) {
         try {
-            amqpTemplate.convertAndSend(messagingConfig.EXCHANGE, messagingConfig.ROUTING_KEY, content)
+            amqpTemplate.convertAndSend(messagingConfig.exchange, messagingConfig.routingKey, content)
 
             logger.info("SEND MESSAGE: $content")
         } catch (e: Exception) {
