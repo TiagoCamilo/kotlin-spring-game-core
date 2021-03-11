@@ -4,6 +4,9 @@ import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
 import org.springframework.amqp.core.Queue
+import org.springframework.amqp.rabbit.connection.ConnectionFactory
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.amqp.support.converter.MessageConverter
 import org.springframework.beans.factory.annotation.Value
@@ -38,6 +41,16 @@ class MessagingConfig(
     @Bean
     fun converter(): MessageConverter {
         return Jackson2JsonMessageConverter()
+    }
+
+    @Bean
+    fun container(
+        connectionFactory: ConnectionFactory
+    ): SimpleMessageListenerContainer? {
+        val container = SimpleMessageListenerContainer()
+        container.connectionFactory = connectionFactory
+        container.setQueueNames(QUEUE)
+        return container
     }
 
 }
